@@ -179,5 +179,5 @@ client.on("message", (msg) => {
 	}
 });
 
-client.login("NDM5MDgzNzIyNDkxNDI4ODY0.DcOAIw._-a4tQSFUFXVcw_SBUOmYt5lVVo");
+client.login(kappa);
 client.on("ready", () => { console.log("bot is running!")});
