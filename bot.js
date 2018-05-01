@@ -26,6 +26,15 @@ var character = new Character();
 
 var jsonString = JSON.stringify(character);
 
+function createNewFile(fileName, message, channel) {
+	fs.appendFileSync("characters/" + fileName, message, function(err) {
+	    if(err) {
+	    	channel.send("ERROR: " + err);		    	
+	        return console.log("ERROR: " + err);
+	    }
+	});
+}
+
 function appendFile(fileName, message, channel) {
 	fs.appendFileSync("characters/" + fileName, message + "\n", function(err) {
 	    if(err) {
@@ -33,8 +42,11 @@ function appendFile(fileName, message, channel) {
 	        return console.log("ERROR: " + err);
 	    }
 	});
-    channel.send("The file was saved!");
-    console.log("The file was saved!");
+}
+
+function doesExist(fileName) {
+	if (fs.existsSync("characters/" + fileName)) {return true;} 
+	else {return false;}
 }
 
 /*function fileList(msg) { //The directory still needs some figuring out
@@ -72,7 +84,14 @@ function resetFile(fileName, channel) {
 	    channel.send("The file was reset!");
 	    console.log("The file was reset!");
 	});
-}*/ 
+}
+
+
+fs.open(fileName, 'w', function(err,file) {
+if(err) throw err;
+	console.log("Saved!");
+
+		*/ 
 function trustCheck(message){
 	for(var i = 0; i < trustedUsers.length; i++)
 	{
@@ -138,21 +157,27 @@ client.on("message", (msg) => {
 
  		if(command.substring(0,2) === "cc"){
  			var val = command.substring(3);
- 			var isAlpha = function(ch){return ch.match(/[0-9]/) != null};
+ 			var isAlpha = function(ch){return ch.match(/[a-z]/i) === null};
  			if(isAlpha(val))
  			{
  				msg.channel.send("Invalid Character name, please make sure it is alpha characters")
  			}
  			else
  			{
- 			var hair = val + ".txt";
- 			msg.channel.send("Character created as " + val)
- 			appendFile(val, "", msg.channel);
- 			appendFile(val, msg.author.id, msg.channel);
- 			}
+	 			var name = val + ".txt";
+	 			if(doesExist(name))
+	 				{msg.channel.send("That character already exists, please choose another name!");}
+	 			else {
+		 			createNewFile(name, "", msg.channel);
+		 			appendFile(name, msg.author.id, msg.channel);
+		 			msg.channel.send("Character created as " + name)
+		 			msg.channel.send("The file was saved!");
+		    		console.log("The file was saved as " + name);
+ 				}
+ 			}	
  		}
 	}
 });
 
-client.login("re");
+client.login("NDM5MDgzNzIyNDkxNDI4ODY0.DcOAIw._-a4tQSFUFXVcw_SBUOmYt5lVVo");
 client.on("ready", () => { console.log("bot is running!")});
