@@ -27,7 +27,7 @@ var character = new Character();
 var jsonString = JSON.stringify(character);
 
 function appendFile(fileName, message, channel) {
-	fs.appendFileSync(fileName, message + "\n", function(err) {
+	fs.appendFileSync("characters/" + fileName, message + "\n", function(err) {
 	    if(err) {
 	    	channel.send("ERROR: " + err);		    	
 	        return console.log("ERROR: " + err);
@@ -37,11 +37,8 @@ function appendFile(fileName, message, channel) {
     console.log("The file was saved!");
 }
 
-function fileSearch(msg) { //The directory still needs some figuring out
-	glob("C:/Users/Gabriel/Desktop/rpgbot/The Bot Itself/*/*.txt", function(err, files) {
-		msg.channel.send("Searching through my files....");
-		//add in if the user has a premade character
-
+/*function fileList(msg) { //The directory still needs some figuring out
+	
 	});
 }
 
@@ -139,15 +136,23 @@ client.on("message", (msg) => {
  			fileSearch(msg);
  		}
 
- 		if(command.substring(0,15) === "createCharacter"){
- 			var val = command.substring(16) + ".txt";
+ 		if(command.substring(0,2) === "cc"){
+ 			var val = command.substring(3);
+ 			var isAlpha = function(ch){return ch.match(/[0-9]/) != null};
+ 			if(isAlpha(val))
+ 			{
+ 				msg.channel.send("Invalid Character name, please make sure it is alpha characters")
+ 			}
+ 			else
+ 			{
+ 			var hair = val + ".txt";
  			msg.channel.send("Character created as " + val)
  			appendFile(val, "", msg.channel);
  			appendFile(val, msg.author.id, msg.channel);
-
+ 			}
  		}
 	}
 });
 
-client.login(ellegiggle);
+client.login("re");
 client.on("ready", () => { console.log("bot is running!")});
