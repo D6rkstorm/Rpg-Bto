@@ -2,9 +2,10 @@ const Discord = require("discord.js");
 const client = new Discord.Client();
 var commandStr = "!";
 var fs = require("fs");
+var glob = require("glob");
 
-var trustedUsers = ["121406882865872901"]
-//, "122022693422891011"
+var trustedUsers = ["121406882865872901","122022693422891011"]
+
 function Character() {
     this.name = "";
     this.player = "";
@@ -25,7 +26,7 @@ var character = new Character();
 
 var jsonString = JSON.stringify(character);
 
-/*function appendFile(fileName, message, channel) {
+function appendFile(fileName, message, channel) {
 	fs.appendFileSync(fileName, message + "\n", function(err) {
 	    if(err) {
 	    	channel.send("ERROR: " + err);		    	
@@ -34,6 +35,14 @@ var jsonString = JSON.stringify(character);
 	});
     channel.send("The file was saved!");
     console.log("The file was saved!");
+}
+
+function fileSearch(msg) { //The directory still needs some figuring out
+	glob("C:/Users/Gabriel/Desktop/rpgbot/The Bot Itself/*/*.txt", function(err, files) {
+		msg.channel.send("Searching through my files....");
+		//add in if the user has a premade character
+
+	});
 }
 
 /*
@@ -125,26 +134,20 @@ client.on("message", (msg) => {
 			}
 			msg.channel.send("You rolled " + total + " in the end!")
 		}
- /*		if(command.includes("ChangeName")){
-			var newName = command.substring(11);
-			console.log(newName);
-			sheet.Name = newName;
-			console.log(sheet.Name);
-			msg.channel.send("User name has been changed to " + newName)
-		}
+ 		
+ 		if(command === "search"){
+ 			fileSearch(msg);
+ 		}
 
-		if(command === "Whats my name"){
-			msg.channel.send("Your character name is " + sheet.Name)
-		}
-Needs to have a folder that contains a number of files that are named the user name of the author, then it can search for the right file and read out the names and change the data of the file. 
-		if(command === "createChar"){
-			var kappa = new sheet()
-			kappa.Name = "Default";
-			kappa.User = msg.author.tag;
-			kappa.religion = "Pastafarian" 
-		}*/
+ 		if(command.substring(0,15) === "createCharacter"){
+ 			var val = command.substring(16) + ".txt";
+ 			msg.channel.send("Character created as " + val)
+ 			appendFile(val, "", msg.channel);
+ 			appendFile(val, msg.author.id, msg.channel);
+
+ 		}
 	}
 });
 
-client.login(krappa);
+client.login(ellegiggle);
 client.on("ready", () => { console.log("bot is running!")});
