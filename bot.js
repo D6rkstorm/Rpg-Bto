@@ -74,8 +74,17 @@ function createCharacter(msg,command) {
 
 //function jsut for testing tha tcreates a new defualt character for use within the charcter string array pre-defined as above. 
 function createDefault(message){
-	appendFile("Griffin.txt", jsonString, message.channel);
-
+	var temp = new Character();
+	temp.name = "Ganandorf";
+	temp.player = "Smae"
+	temp.strength = 101;
+    temp.constitution = 99;
+    temp.dexterity = 23;
+    temp.intelligence = 5;
+    temp.wisdom = 15;
+    temp.charisma = 78;
+    appendFile("Griffin.txt", JSON.stringify(temp), message.channel);
+    console.log("Character Generated");
 }
 
 //Method to check if the user that is requesting to modify the file is the same user that created the file
@@ -208,7 +217,7 @@ client.on("message", (msg) => {
  			createCharacter(msg,command);
  		}
 
- 		if(command === "createDefaultCharacter"){
+ 		if(command === "create"){
  			createDefault(msg);
  		}
 	}
