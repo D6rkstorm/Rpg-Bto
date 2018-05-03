@@ -2,7 +2,6 @@ const Discord = require("discord.js");
 const client = new Discord.Client();
 var commandStr = "!";
 var fs = require("fs");
-var glob = require("glob");
 
 var trustedUsers = ["121406882865872901","122022693422891011"]
 
@@ -73,6 +72,12 @@ function createCharacter(msg,command) {
 		}
 }
 
+//function jsut for testing tha tcreates a new defualt character for use within the charcter string array pre-defined as above. 
+function createDefault(message){
+	appendFile("Griffin.txt", jsonString, message.channel);
+
+}
+
 //Method to check if the user that is requesting to modify the file is the same user that created the file
 function isUser(text, key) { //text is the file split by newline, and you take the first element of that string, the key is the ID of the user. 
 	var temp = text.split("\n");
@@ -84,6 +89,19 @@ function isUser(text, key) { //text is the file split by newline, and you take t
 		return false;
 }
 
+//Function to read out a file and return the text of the file. 
+function readFile(filename,msg){
+	var fileFound = fs.readdirSync("characters/");
+	var temp = new Buffer();
+	for(var i = 0; i < filesFound.length; i++){
+		if(filesFounds[i] === filename)
+		{
+			temp = fs.readFileSync("characters/" + filesFound[i]);
+			temp = temp.toString("utf-8");
+		}
+	}
+	return temp;
+}
 //Method that goes through the files in the "characters" directory and finds the characters with the same ID as the author of the message"
 function fileSearchS(msg){
 	var filesFound = fs.readdirSync("characters/");
@@ -91,7 +109,7 @@ function fileSearchS(msg){
 	for(var i = 0; i < filesFound.length; i++)
 	{
 		var temp = fs.readFileSync("characters/" + filesFound[i]);
-		temp = temp.toString("utf-8",0)
+		temp = temp.toString("utf-8",0);
 		if(isUser(temp, msg.author.id))
 			specificFiles.push(filesFound[i])
 	}
@@ -188,6 +206,10 @@ client.on("message", (msg) => {
 
  		if(command.substring(0,2) === "cc"){
  			createCharacter(msg,command);
+ 		}
+
+ 		if(command === "createDefaultCharacter"){
+ 			createDefault(msg);
  		}
 	}
 });
