@@ -1,2 +1,2 @@
 ID=121406882865872901
-{"name":"","player":"","strength":10,"constitution":10,"dexterity":10,"intelligence":10,"wisdom":10,"charisma":10,"skills":[]}
+{"name":"Ganandorf","player":"Smae","strength":101,"constitution":99,"dexterity":23,"intelligence":5,"wisdom":15,"charisma":78,"skills":[]}
