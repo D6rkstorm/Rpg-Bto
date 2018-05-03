@@ -9,12 +9,17 @@ function Character() {
     this.name = "";
     this.player = "";
 
-    this.strength = 10;
-    this.constitution = 10;
-    this.dexterity = 10;
-    this.intelligence = 10;
-    this.wisdom = 10;
-    this.charisma = 10;
+    this.str = 10;
+    this.dex = 10;
+    this.iq = 10;
+    this.ht = 10;
+
+    this.percep = 10;
+    this.hp = 10;
+    this.varhp = 10;
+    this.will = 10;
+    this.fp = 10;
+    this.varfp = 10;
 
     this.skills = [];    
 }
@@ -75,18 +80,31 @@ function createCharacter(msg,command) {
 //function jsut for testing tha tcreates a new defualt character for use within the charcter string array pre-defined as above. 
 function createDefault(message){
 	var temp = new Character();
-	temp.name = "Ganandorf";
-	temp.player = "Smae"
-	temp.strength = 101;
-    temp.constitution = 99;
-    temp.dexterity = 23;
-    temp.intelligence = 5;
-    temp.wisdom = 15;
-    temp.charisma = 78;
-    appendFile("Griffin.txt", JSON.stringify(temp), message.channel);
+	temp.name = "";
+	temp.player = ""
+
+	temp.str = 10;
+    temp.dex = 10;
+    temp.iq = 10;
+	temp.ht = 10;
+
+    temp.percep = 10;
+    temp.hp = 10;
+    temp.varhp = 10;
+    temp.will = 10;
+    temp.fp = 10;
+    temp.varfp = 10;
+
+    appendFile("Griffin.txt", "\n" + JSON.stringify(temp), message.channel);
     console.log("Character Generated");
 }
 
+function modify(message, name){
+	if(isUser(readFile(name,message), message.author.id))
+		{console.log("Able to edit " + message.author.tag);}
+	else
+		{console.log("Unable to edit " + message.author.tag);	}
+}
 //Method to check if the user that is requesting to modify the file is the same user that created the file
 function isUser(text, key) { //text is the file split by newline, and you take the first element of that string, the key is the ID of the user. 
 	var temp = text.split("\n");
@@ -100,17 +118,11 @@ function isUser(text, key) { //text is the file split by newline, and you take t
 
 //Function to read out a file and return the text of the file. 
 function readFile(filename,msg){
-	var fileFound = fs.readdirSync("characters/");
-	var temp = new Buffer();
-	for(var i = 0; i < filesFound.length; i++){
-		if(filesFounds[i] === filename)
-		{
-			temp = fs.readFileSync("characters/" + filesFound[i]);
-			temp = temp.toString("utf-8");
-		}
-	}
+	var temp = fs.readFileSync("characters/" + filename);
+	temp = temp.toString("utf-8");
 	return temp;
 }
+
 //Method that goes through the files in the "characters" directory and finds the characters with the same ID as the author of the message"
 function fileSearchS(msg){
 	var filesFound = fs.readdirSync("characters/");
@@ -220,8 +232,13 @@ client.on("message", (msg) => {
  		if(command === "create"){
  			createDefault(msg);
  		}
+
+ 		if(command.substring(0,6) === "modify"){
+			var name = command.substring(7);
+			modify(msg, name);
+ 		}
 	}
 });
 
-client.login(a);
+client.login("NDM5MDgzNzIyNDkxNDI4ODY0.DcqFJQ.8adxFOtKlD3NvCMk5khY0SHOVLs");
 client.on("ready", () => { console.log("bot is running!")});
