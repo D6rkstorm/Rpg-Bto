@@ -240,5 +240,7 @@ client.on("message", (msg) => {
 	}
 });
 
-client.login("NDM5MDgzNzIyNDkxNDI4ODY0.DcqFJQ.8adxFOtKlD3NvCMk5khY0SHOVLs");
+var key = fs.readFileSync("../key.txt");
+key = key.toString("utf-8");
+client.login(key);
 client.on("ready", () => { console.log("bot is running!")});
