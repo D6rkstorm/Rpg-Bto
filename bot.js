@@ -206,7 +206,7 @@ client.on("message", (msg) => {
 		if(command.split(" ")[0] === "roll"){
 			var information = command.split(" ")[1];
 			var front = information.split("d")[0];
-			var back = information.split("d")[0];
+			var back = information.split("d")[1];
 			var total = 0;
 			for(var i = 0; i < front; i++){
 				var output = Math.floor(Math.random() * (back + 1) + 1)
