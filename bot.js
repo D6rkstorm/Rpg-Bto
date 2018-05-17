@@ -70,15 +70,16 @@ function createCharacter(msg,command) {
 			else {
  			createNewFile(name, "", msg.channel);
  			appendFile(name, "ID=" + msg.author.id, msg.channel);
+ 			createDefault(msg, name);
  			msg.channel.send("Character created as " + name)
- 			msg.channel.send("The file was saved!");
     		console.log("The file was saved as " + name);
 			}
 		}
 }
 
 //function jsut for testing tha tcreates a new defualt character for use within the charcter string array pre-defined as above. 
-function createDefault(message){
+function createDefault(message, fileName){
+	console.log("Method Called");
 	var temp = new Character();
 	temp.name = "";
 	temp.player = ""
@@ -95,15 +96,17 @@ function createDefault(message){
     temp.fp = 10;
     temp.varfp = 10;
 
-    appendFile("Griffin.txt", "\n" + JSON.stringify(temp), message.channel);
+    appendFile(fileName, "\n" + JSON.stringify(temp), message.channel);
     console.log("Character Generated");
 }
 
 function modify(message, name){
-	if(isUser(readFile(name,message), message.author.id))
-		{console.log("Able to edit " + message.author.tag);}
-	else
-		{console.log("Unable to edit " + message.author.tag);	}
+	if(doesExist(name)){
+		if(isUser(readFile(name,message), message.author.id))
+			{message.channel.send("Able to edit " + message.author.toString());}
+		else
+			{message.channel.send("Unable to edit " + message.author.toString());}
+	}else{message.channel.send("File does not exist, please check your spelling");}
 }
 //Method to check if the user that is requesting to modify the file is the same user that created the file
 function isUser(text, key) { //text is the file split by newline, and you take the first element of that string, the key is the ID of the user. 
@@ -229,13 +232,9 @@ client.on("message", (msg) => {
  			createCharacter(msg,command);
  		}
 
- 		if(command === "create"){
- 			createDefault(msg);
- 		}
-
  		if(command.substring(0,6) === "modify"){
 			var name = command.substring(7);
-			modify(msg, name);
+			modify(msg, name + ".txt");
  		}
 	}
 });
